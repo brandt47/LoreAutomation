@@ -32,6 +32,12 @@ jobs:
       - name: Run preorder date update
         run: node src/run.js
 
+      - name: Refresh session secret
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: base64 -w 0 storageState.json | gh secret set SQUARE_STORAGE_STATE_B64
+
       - name: Upload failure screenshot
         if: failure()
         uses: actions/upload-artifact@v4

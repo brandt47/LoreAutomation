@@ -69,6 +69,9 @@ const RESTOCK_QTY = 100;
 
     await verifySaved(page);
     console.log('Success — quantity restocked and preorder dates updated.');
+
+    await context.storageState({ path: STORAGE_PATH });
+    console.log('Session refreshed.');
   } catch (err) {
     console.error('FAILED:', err.message);
     const screenshotPath = path.join(__dirname, '..', 'failure.png');
