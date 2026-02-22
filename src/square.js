@@ -14,7 +14,13 @@ const MONTH_NAMES = [
 // ── Calendar helpers ────────────────────────────────────────────────────────────
 
 async function clickCalendarForward(page) {
-  await page.locator('market-button:nth-child(3) > .market-icon > svg').first().click();
+  const fwdBtn = page
+    .locator('market-button', {
+      has: page.locator('svg[data-name="arrow-right"]'),
+    })
+    .first();
+  await fwdBtn.waitFor({ state: 'attached', timeout: 5_000 });
+  await fwdBtn.click({ force: true });
   await page.waitForTimeout(300);
 }
 
