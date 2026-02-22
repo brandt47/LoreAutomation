@@ -1,0 +1,41 @@
+name: Weekly Preorder Update
+
+on:
+  schedule:
+    # Every Saturday at 7 PM Edmonton (MDT) = Sunday 01:00 UTC
+    - cron: '0 1 * * 0'
+  workflow_dispatch: # allow manual trigger
+
+jobs:
+  update-preorder:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Restore authenticated session
+        run: echo "${{ secrets.SQUARE_STORAGE_STATE_B64 }}" | base64 -d > storageState.json
+
+      - name: Run preorder date update
+        run: node src/run.js
+
+      - name: Upload failure screenshot
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failure-screenshot
+          path: failure.png
+          retention-days: 7

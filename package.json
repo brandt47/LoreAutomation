@@ -1,0 +1,13 @@
+{
+  "name": "square-preorder-bot",
+  "version": "1.0.0",
+  "description": "Playwright automation to update preorder dates in Square Dashboard",
+  "private": true,
+  "scripts": {
+    "login": "node src/login.js",
+    "start": "node src/run.js"
+  },
+  "dependencies": {
+    "playwright": "^1.50.0"
+  }
+}

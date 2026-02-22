@@ -137,3 +137,8 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Square Preorder Bot
+storageState.json
+failure.png
+debug-*.png
